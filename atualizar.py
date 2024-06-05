@@ -63,10 +63,8 @@ def load_csv_data(conn, csv_directory):
                     print(f"Aviso: Arquivo {filename} não contém cabeçalho.")
                     continue
 
-                # Obter índices das colunas relevantes
                 column_indices = get_column_indices(header)
 
-                # Verifica se há pelo menos uma linha de dados após o cabeçalho
                 try:
                     first_row = next(reader)
                 except StopIteration:
@@ -84,10 +82,8 @@ def load_csv_data(conn, csv_directory):
                         print(f"Erro: Número de colunas inconsistente na linha do arquivo {filename}")
                         continue
 
-                    # Selecionar apenas os dados das colunas relevantes
                     relevant_data = [row[i] for i in column_indices]
 
-                    # Adiciona os dados relevantes à lista de dados
                     data.append(relevant_data)
 
             # Inserir os dados na tabela
@@ -97,7 +93,7 @@ def load_csv_data(conn, csv_directory):
                 print(f"Erro ao inserir dados do arquivo {filename}: {e}")
                 continue
 
-            # Renomear o arquivo para indicar que foi processado
+            # Mover o arquivo para indicar que foi processado
             processado_directory = os.path.join(csv_directory, "processado")
             if not os.path.exists(processado_directory):
                 os.makedirs(processado_directory)
@@ -108,7 +104,7 @@ def load_csv_data(conn, csv_directory):
 
 
 def get_column_indices(header):
-    # Nomes das colunas da tabela companhias
+    # Nomes das colunas da tabela
     companhias_columns = ['CNPJ_CIA', 'DT_REG', 'DENOM_SOCIAL', 'SIT', 'DT_INI_SIT']
 
     column_indices = []
@@ -123,14 +119,11 @@ def get_column_indices(header):
 
 
 def main():
-    # Cria a conexão e a tabela
     conn = create_connection()
     sql_companhias(conn)
 
-    # Inserir dados dos arquivos CSV
     load_csv_data(conn, 'data')
 
-    # Fechar a conexão inicial
     conn.close()
 
 
