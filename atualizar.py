@@ -58,7 +58,7 @@ def load_csv_data(conn, csv_directory):
 
             with open(filepath, 'r', encoding='ISO-8859-1') as csvfile:
                 reader = csv.reader(csvfile, delimiter=';')
-                header = next(reader, None)  # Get header row
+                header = next(reader, None)
                 if header is None:
                     print(f"Aviso: Arquivo {filename} não contém cabeçalho.")
                     continue
